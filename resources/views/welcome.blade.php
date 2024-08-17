@@ -21,8 +21,10 @@
 		</div>
 
 
-        <div class="mt-10">
+        <div class="mx-10">
             @livewire('counter')
+
+            <i class="fa-brands fa-bitcoin"></i>
         </div>
     </body>
 </html>
