@@ -4,7 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 
-class Counter extends Component
+class Refresh extends Component
 {
     public $count = 1;
  
@@ -20,6 +20,6 @@ class Counter extends Component
  
     public function render()
     {
-        return view('livewire.counter');
+        return view('livewire.refresh');
     }
 }
