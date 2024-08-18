@@ -15,7 +15,18 @@
 
     </head>
     <body class="font-sans antialiased dark:bg-gray-900 dark:text-gray-400">
-        @livewire('refresh')
 
+
+        <div x-data="{ count: 0 }">
+			<button @click="count++">Add</button>
+			<span x-text="count">0</span>
+		</div>
+
+
+        <div class="mx-10">
+            @livewire('counter')
+
+            <i class="fa-brands fa-bitcoin"></i>
+        </div>
     </body>
 </html>
