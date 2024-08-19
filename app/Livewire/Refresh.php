@@ -11,6 +11,7 @@ class Refresh extends Component
 {
 
     public $total_num;
+    public array $providers = [];
     public $coinmarketcap;
     public $blockchain;
     public $coindesk;
@@ -32,11 +33,18 @@ class Refresh extends Component
         }
         else{
             $this->coinmarketcap = DB::table('variables')->where('Name', 'coinmarketcap')->first()->ValuesEUR;
+            
+            $this->providers['coinmarketcap'] = $this->coinmarketcap;
             $this->blockchain = DB::table('variables')->where('Name', 'blockchain')->first()->ValuesEUR;
+            $this->providers['blockchain'] = $this->blockchain;
             $this->coindesk = DB::table('variables')->where('Name', 'coindesk')->first()->ValuesEUR;
+            $this->providers['coindesk'] = $this->coindesk;
             $this->bitstamp = DB::table('variables')->where('Name', 'bitstamp')->first()->ValuesEUR;
+            $this->providers['bitstamp'] = $this->bitstamp;
             $this->peachbitcoin = DB::table('variables')->where('Name', 'peachbitcoin')->first()->ValuesEUR;
+            $this->providers['peachbitcoin'] = $this->peachbitcoin;
             $this->coinbase = DB::table('variables')->where('Name', 'coinbase')->first()->ValuesEUR;
+            $this->providers['coinbase'] = $this->coinbase;
             
     
             $this->ath = DB::table('variables')->where('Name', 'ATH')->first()->ValuesEUR;
@@ -68,7 +76,7 @@ class Refresh extends Component
             else{
                 $this->athPercentage = 0;
             }
-    
+            //dd($this->providers);
             //$coinmarketcap, $blockchain, $coindesk, $bitstamp,$peachbitcoin, $coinbase, $averageFromProviders, $this->ath, $this->athDate, $this->athPercentage, $fromATHDate, $averageFromProvidersUSD]);
         }
 
