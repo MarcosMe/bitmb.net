@@ -24,6 +24,7 @@ class Refresh extends Component
     public $fromATHDate;
     public $averageFromProvidersUSD;
     public $athPercentage;
+    public $exchangeRate;
 
     public function render()
     {
@@ -33,7 +34,6 @@ class Refresh extends Component
         }
         else{
             $this->coinmarketcap = DB::table('variables')->where('Name', 'coinmarketcap')->first()->ValuesEUR;
-            
             $this->providers['coinmarketcap'] = $this->coinmarketcap;
             $this->blockchain = DB::table('variables')->where('Name', 'blockchain')->first()->ValuesEUR;
             $this->providers['blockchain'] = $this->blockchain;
@@ -49,12 +49,12 @@ class Refresh extends Component
     
             $this->ath = DB::table('variables')->where('Name', 'ATH')->first()->ValuesEUR;
             $this->athDate = DB::table('variables')->where('Name', 'ATH')->first()->Date;
-            $this->fromATHDate = Carbon::create($this->athDate)->diffForHumans(['parts' => 4, 'join' => true,]);
+            $this->fromATHDate = Carbon::create($this->athDate)->diffForHumans(['parts' => 3, 'join' => true,]);
     
             $this->averageFromProviders = DB::table('variables')->where('Name', 'average')->first()->ValuesEUR;
             
-            $exchangeRate = DB::table('variables')->where('Name', 'exchangeRate')->first()->ValuesBTC;
-            $this->averageFromProvidersUSD = number_format($exchangeRate * $this->averageFromProviders, 2, '.', '');
+            $this->exchangeRate = DB::table('variables')->where('Name', 'exchangeRate')->first()->ValuesBTC;
+            $this->averageFromProvidersUSD = number_format($this->exchangeRate * $this->averageFromProviders, 2, '.', '');
     
             if($this->averageFromProviders != $this->ath){
                 if(number_format(100 - (($this->averageFromProviders * 100) / (float)$this->ath), 1, '.', '') == 0.0 || 
