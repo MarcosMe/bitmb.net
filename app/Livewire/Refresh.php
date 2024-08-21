@@ -25,6 +25,8 @@ class Refresh extends Component
     public $averageFromProvidersUSD;
     public $athPercentage;
     public $exchangeRate;
+    public $chartDataMinute;
+    public $chartDataValue;
 
     public function render()
     {
@@ -78,6 +80,10 @@ class Refresh extends Component
             }
             //dd($this->providers);
             //$coinmarketcap, $blockchain, $coindesk, $bitstamp,$peachbitcoin, $coinbase, $averageFromProviders, $this->ath, $this->athDate, $this->athPercentage, $fromATHDate, $averageFromProvidersUSD]);
+        
+            $this->chartDataMinute =  DB::table('chart_day')->whereNotNull('Value')->orderBy('Date', 'asc')->pluck('Date');
+            $this->chartDataValue =  DB::table('chart_day')->whereNotNull('Value')->orderBy('Date', 'asc')->pluck('Value');
+        
         }
 
         return view('livewire.refresh');

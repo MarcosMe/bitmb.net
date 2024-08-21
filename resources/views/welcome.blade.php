@@ -12,10 +12,16 @@
 
         <!-- Styles -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
     <body class="font-sans antialiased dark:bg-gray-900 dark:text-gray-400">
         @livewire('refresh')
+
+        
+
+        <script>
+        
+    </script>
 
     </body>
 </html>

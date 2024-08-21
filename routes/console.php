@@ -141,6 +141,37 @@ Schedule::call(function () {
     Log::info($average. ' average value from ' .$total_num. ' providers -> 0-' 
     .$providers[0][4].' 1-'. $providers[1][4].' 2-'. $providers[2][4].' 3-'. $providers[3][4].' 4-'. $providers[4][4].' 5-'.$providers[5][4]);
 
+    if($average == 0){
+        DB::table('chart_day')->where('Minute', $minute)->update(['Value' => null, 'Date' => $now]);
+        DB::table('variables')->where('Name', 'average')->update(['ValuesEUR' => $average]);
+    }
+    else{
+        DB::table('chart_day')->where('Minute', $minute)->update(['Value' => $average, 'Date' => $now]);
+        DB::table('variables')->where('Name', 'average')->update(['ValuesEUR' => $average]);
+        //check if new ATH, if so, update db
+        $ath = DB::table('variables')->where('Name', 'ATH')->get('ValuesEUR');
+        //Log::info($average. ' value @ '. $now . ' and ATH is ' .$ath[0]->ValuesEUR);
+        if($average > $ath[0]->ValuesEUR){
+            DB::table('variables')->where('Name', 'ATH')->update(['ValuesEUR' => $average, 'Date' => $now]);
+            Log::info('New ATH: ' .$ath[0]->ValuesEUR);
+        }
+    }
+
+    if($minute % 10 == 0){
+        $id = DB::table('current_chart_week')->value('current');
+        if($id == 1007){
+            $id = 0;
+        }
+        $id++;
+        DB::table('current_chart_week')->update(['current' => $id]);
+        if($average == 0){
+            DB::table('chart_week')->where('Id', $id)->update(['Value' => null, 'Date' => $now]);
+        }
+        else{
+            DB::table('chart_week')->where('Id', $id)->update(['Value' => $average, 'Date' => $now]);
+        }
+    }
+
 })->everyMinute();
 
 
@@ -169,6 +200,3 @@ Schedule::call(function () {
     }
 })->everyFourHours();
 
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->purpose('Display an inspiring quote')->hourly();
