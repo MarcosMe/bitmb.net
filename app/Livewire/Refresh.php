@@ -12,12 +12,6 @@ class Refresh extends Component
 
     public $total_num;
     public array $providers = [];
-    public $coinmarketcap;
-    public $blockchain;
-    public $coindesk;
-    public $bitstamp;
-    public $peachbitcoin;
-    public $coinbase;
     public $averageFromProviders;
     public $ath;
     public $athDate;
@@ -28,6 +22,20 @@ class Refresh extends Component
     public $chartDataMinute;
     public $chartDataValue;
 
+    public $selectedYear;
+    public $thisYearOrders;
+    public $lastYearOrders;
+
+    public function mount()
+    {
+        $this->selectedYear = date('Y');
+    }
+
+    public function updateChart()
+    {
+        $this->dispatch('updateTheChart');
+    }
+
     public function render()
     {
         $this->total_num = DB::table('variables')->where('Name', 'total_num')->first()->ValuesINT;
@@ -35,18 +43,12 @@ class Refresh extends Component
             $this->averageFromProviders = 0;
         }
         else{
-            $this->coinmarketcap = DB::table('variables')->where('Name', 'coinmarketcap')->first()->ValuesEUR;
-            $this->providers['coinmarketcap'] = $this->coinmarketcap;
-            $this->blockchain = DB::table('variables')->where('Name', 'blockchain')->first()->ValuesEUR;
-            $this->providers['blockchain'] = $this->blockchain;
-            $this->coindesk = DB::table('variables')->where('Name', 'coindesk')->first()->ValuesEUR;
-            $this->providers['coindesk'] = $this->coindesk;
-            $this->bitstamp = DB::table('variables')->where('Name', 'bitstamp')->first()->ValuesEUR;
-            $this->providers['bitstamp'] = $this->bitstamp;
-            $this->peachbitcoin = DB::table('variables')->where('Name', 'peachbitcoin')->first()->ValuesEUR;
-            $this->providers['peachbitcoin'] = $this->peachbitcoin;
-            $this->coinbase = DB::table('variables')->where('Name', 'coinbase')->first()->ValuesEUR;
-            $this->providers['coinbase'] = $this->coinbase;
+            $this->providers['coinmarketcap'] = DB::table('variables')->where('Name', 'coinmarketcap')->first()->ValuesEUR;
+            $this->providers['blockchain'] = DB::table('variables')->where('Name', 'blockchain')->first()->ValuesEUR;
+            $this->providers['coindesk'] = DB::table('variables')->where('Name', 'coindesk')->first()->ValuesEUR;
+            $this->providers['bitstamp'] = DB::table('variables')->where('Name', 'bitstamp')->first()->ValuesEUR;
+            $this->providers['peachbitcoin'] = DB::table('variables')->where('Name', 'peachbitcoin')->first()->ValuesEUR;
+            $this->providers['coinbase'] = DB::table('variables')->where('Name', 'coinbase')->first()->ValuesEUR;
             
     
             $this->ath = DB::table('variables')->where('Name', 'ATH')->first()->ValuesEUR;
@@ -86,7 +88,13 @@ class Refresh extends Component
         
         }
 
-        return view('livewire.refresh');
+        $availableYears = [
+            date('Y'), date('Y') - 1, date('Y') - 2, date('Y') - 3,
+        ];
+
+        return view('livewire.refresh', [
+            'availableYears' => $availableYears,
+        ]);
     }
 
     

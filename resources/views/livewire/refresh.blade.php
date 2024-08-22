@@ -1,38 +1,77 @@
 <div wire:poll.60s>
-    <div class="relative isolate overflow-hidden bg-gray-900" x-data="{ init() {
-        
-        const ctx = document.getElementById('myChart');
+    <div class="relative isolate overflow-hidden bg-gray-900" x-data="{ 
+        selectedYear: @entangle('selectedYear'),
+        chartDataValue: @entangle('chartDataValue'),
+        chartDataMinute: @entangle('chartDataMinute'),
+        eurValue: $wire.entangle('averageFromProviders'), 
+        usdValue: $wire.entangle('averageFromProvidersUSD'), 
+        isEUR: true,
 
-        new Chart(ctx, {
+        init() {
+        const myChart = new Chart(this.$refs.canvas, {
             type: 'line',
             data: {
-            labels: {{ $chartDataMinute }},
-            datasets: [{
-                        label: '€',
-                        data: {{ $chartDataValue }},
-                        borderWidth: 1,
-                        pointRadius: 0,
-					    lineTension: 0.4
-                    }]
+                labels: this.chartDataMinute,
+                datasets: [{
+                            data: this.chartDataValue,
+                            borderWidth: 1,
+                            pointRadius: 0,
+                            lineTension: 0.4
+                        }]
             },
             options: {
-                    showLines: true,
-                    spanGaps: true,
-                    plugins:{
-                        legend: {
-                            display: false,
+                showLines: true,
+                spanGaps: true,
+                animations: {
+                    tension: {
+                        duration: 1000,
+                        easing: 'linear',
+                        from: 1,
+                        to: 0,
+                        loop: true
+                    }
+                },
+                scales: {
+                    y: {
+                            ticks: {
+                                beginAtZero:false,
+                                callback: function(value, index, values) {
+                                    return value + ' €' ;
+                                }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                            // For a category axis, the val is the index so the lookup via getLabelForValue is needed
+                                callback: function(val, index) {
+                                // Hide every 2nd tick label
+                                    return index % 2 === 0 ? this.getLabelForValue(val).slice(11,16) : '';
+                                },
+                            }
                         }
-                    },
-                    
-                    
-                }
+                },
+                plugins: {
+                    legend: {
+                        display: false,
+                    }
+                }    
+            },
+            
         });
+
+
+        Livewire.on('updateTheChart', () => {
+                console.log(this.isEUR);
+                myChart.update();
+             })
+
+        }
+    }">
         
-    }, eurValue: $wire.entangle('averageFromProviders'), usdValue: $wire.entangle('averageFromProvidersUSD'), isEUR: true }">
         <div class="px-6 pt-24 sm:px-6 sm:pt-32 lg:px-8">
             <div class="mx-auto max-w-3xl text-center">
             <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl mb-2">
-                1 <i class="fa-solid fa-bitcoin-sign"></i> = <span @click="isEUR = !isEUR" class="cursor-pointer">
+                1 <i class="fa-solid fa-bitcoin-sign"></i> = <span @click="isEUR = !isEUR" class="cursor-pointer" wire:click="updateChart">
                 <span x-text="isEUR ? eurValue + '€' : '$' + usdValue"></span> 
             </span>
             </h2>
@@ -77,9 +116,25 @@
         <div class="px-6 py-6 sm:px-6 sm:py-12 lg:px-8">
         <div class="mx-auto max-w-3xl text-center">
         <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl my-4">
-            Charts        
+            Charts  
+            
+            
+                
         </h2>
-            <canvas id="myChart"></canvas>
+            
+        <span>Year: </span>
+            <select name="selectedYear" id="selectedYear" class="border" wire:model="selectedYear" wire:change="updateChart">
+                @foreach ($availableYears as $year)
+                    <option value="{{ $year }}">{{ $year }}</option>
+                @endforeach
+            </select>
+            <div>
+        Selected: <span x-text="selectedYear"></span>
+            </div>
+
+
+                <canvas id="myChart" x-ref="canvas"></canvas>
+            
         </div>
         </div>
     </div>
