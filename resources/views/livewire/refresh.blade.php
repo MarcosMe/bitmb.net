@@ -1,71 +1,83 @@
 <div wire:poll.60s>
     <div class="relative isolate overflow-hidden bg-gray-900" x-data="{ 
-        selectedYear: @entangle('selectedYear'),
-        chartDataValue: @entangle('chartDataValue'),
-        chartDataMinute: @entangle('chartDataMinute'),
+        chart: $wire.entangle('chart'),
+        chartDataValues: $wire.entangle('chartDataValues'),
+        chartDataTimes: $wire.entangle('chartDataTimes'),
         eurValue: $wire.entangle('averageFromProviders'), 
         usdValue: $wire.entangle('averageFromProvidersUSD'), 
         isEUR: true,
-
+        
         init() {
-        const myChart = new Chart(this.$refs.canvas, {
-            type: 'line',
-            data: {
-                labels: this.chartDataMinute,
+            
+
+            const labels = this.chartDataTimes;
+            const data = {
+                labels: labels,
                 datasets: [{
-                            data: this.chartDataValue,
-                            borderWidth: 1,
-                            pointRadius: 0,
-                            lineTension: 0.4
-                        }]
-            },
-            options: {
-                showLines: true,
-                spanGaps: true,
-                animations: {
-                    tension: {
-                        duration: 1000,
-                        easing: 'linear',
-                        from: 1,
-                        to: 0,
-                        loop: true
-                    }
-                },
-                scales: {
-                    y: {
-                            ticks: {
-                                beginAtZero:false,
-                                callback: function(value, index, values) {
-                                    return value + ' €' ;
+                    data: this.chartDataValues,
+                    borderWidth: 1,
+                    pointRadius: 0,
+                    lineTension: 0.4
+                }]
+            };
+             const config = {
+                 type: 'line',
+                 data: data,
+                 options: {
+                    showLines: true,
+                    spanGaps: true,
+                    animations: {
+                        tension: {
+                            duration: 1000,
+                            easing: 'linear',
+                            from: 1,
+                            to: 0,
+                            loop: true
+                        }
+                    },
+                    scales: {
+                        y: {
+                                ticks: {
+                                    beginAtZero:false,
+                                    callback: function(value, index, values) {
+                                        return value + ' €';
+                                    }
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                // For a category axis, the val is the index so the lookup via getLabelForValue is needed
+                                    callback: function(val, index) {
+                                    // Hide every 2nd tick label
+                                        return index % 2 === 0 ? this.getLabelForValue(val).slice(5,16) : '';
+                                    },
                                 }
                             }
-                        },
-                        x: {
-                            ticks: {
-                            // For a category axis, the val is the index so the lookup via getLabelForValue is needed
-                                callback: function(val, index) {
-                                // Hide every 2nd tick label
-                                    return index % 2 === 0 ? this.getLabelForValue(val).slice(11,16) : '';
-                                },
-                            }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false,
                         }
-                },
-                plugins: {
-                    legend: {
-                        display: false,
-                    }
-                }    
-            },
-            
-        });
+                    }    
+                 }
+             };
+             const myChart = new Chart(
+                 this.$refs.canvas,
+                 config
+             );
 
 
-        Livewire.on('updateTheChart', () => {
-                console.log(this.isEUR);
+            Livewire.on('updateTheChart', () => {
+                myChart.config.data.labels = this.chartDataTimes;
+                myChart.config.data.datasets[0].data = this.chartDataValues;
+
                 myChart.update();
-             })
+            })
+
 
         }
+
+        
     }">
         
         <div class="px-6 pt-24 sm:px-6 sm:pt-32 lg:px-8">
@@ -122,14 +134,13 @@
                 
         </h2>
             
-        <span>Year: </span>
-            <select name="selectedYear" id="selectedYear" class="border" wire:model="selectedYear" wire:change="updateChart">
-                @foreach ($availableYears as $year)
-                    <option value="{{ $year }}">{{ $year }}</option>
+            <select name="chart" id="chart" class="border" wire:model="chart" wire:change="updateChart">
+                @foreach ($possibleCharts as $chart)
+                    <option value="{{ $chart }}">{{ $chart }}</option>
                 @endforeach
             </select>
             <div>
-        Selected: <span x-text="selectedYear"></span>
+        Selected: <span x-text="chart"></span>
             </div>
 
 

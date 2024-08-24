@@ -19,16 +19,13 @@ class Refresh extends Component
     public $averageFromProvidersUSD;
     public $athPercentage;
     public $exchangeRate;
-    public $chartDataMinute;
-    public $chartDataValue;
-
-    public $selectedYear;
-    public $thisYearOrders;
-    public $lastYearOrders;
+    public $chartDataTimes;
+    public $chartDataValues;
+    public $chart;
 
     public function mount()
     {
-        $this->selectedYear = date('Y');
+        $this->chart = 'Day';
     }
 
     public function updateChart()
@@ -82,18 +79,29 @@ class Refresh extends Component
             }
             //dd($this->providers);
             //$coinmarketcap, $blockchain, $coindesk, $bitstamp,$peachbitcoin, $coinbase, $averageFromProviders, $this->ath, $this->athDate, $this->athPercentage, $fromATHDate, $averageFromProvidersUSD]);
-        
-            $this->chartDataMinute =  DB::table('chart_day')->whereNotNull('Value')->orderBy('Date', 'asc')->pluck('Date');
-            $this->chartDataValue =  DB::table('chart_day')->whereNotNull('Value')->orderBy('Date', 'asc')->pluck('Value');
+        switch($this->chart){
+            case 'Day':
+                $this->chartDataTimes =  DB::table('chart_day')->whereNotNull('Value')->orderBy('Date', 'asc')->pluck('Date');
+                $this->chartDataValues =  DB::table('chart_day')->whereNotNull('Value')->orderBy('Date', 'asc')->pluck('Value');
+                break;
+            case 'Week':
+                $this->chartDataTimes =  DB::table('chart_week')->whereNotNull('Value')->orderBy('Date', 'asc')->pluck('Date');
+                $this->chartDataValues =  DB::table('chart_week')->whereNotNull('Value')->orderBy('Date', 'asc')->pluck('Value');
+                break;
+            default:
+                $this->chartDataTimes =  DB::table('chart_day')->whereNotNull('Value')->orderBy('Date', 'asc')->pluck('Date');
+                $this->chartDataValues =  DB::table('chart_day')->whereNotNull('Value')->orderBy('Date', 'asc')->pluck('Value');
+        }
+            
         
         }
 
-        $availableYears = [
-            date('Y'), date('Y') - 1, date('Y') - 2, date('Y') - 3,
+        $possibleCharts = [
+            'Day', 'Week', 'Month', 'Year'
         ];
 
         return view('livewire.refresh', [
-            'availableYears' => $availableYears,
+            'possibleCharts' => $possibleCharts,
         ]);
     }
 
