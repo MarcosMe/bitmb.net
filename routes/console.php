@@ -72,6 +72,7 @@ Schedule::call(function () {
                 }
                 if($provider[0] == 5){
                     $getPath = $items[$provider[3][0]][$provider[3][1]];
+                    $exchangeRate = DB::table('variables')->where('Name', 'exchangeRate')->first()->ValuesBTC;
                     $providers[5][4] = (float)number_format($getPath/$exchangeRate, 2, '.', '');
                     DB::table('variables')->where('Name', 'coinbase')->update(['ValuesEUR' => $providers[5][4]]);
                 }
@@ -158,12 +159,12 @@ Schedule::call(function () {
     }
 
     if($minute % 10 == 0){
-        $id = DB::table('current_chart_week')->value('current');
+        $id = DB::table('current_chart')->value('current_week');
         if($id == 1007){
             $id = 0;
         }
         $id++;
-        DB::table('current_chart_week')->update(['current' => $id]);
+        DB::table('current_chart')->update(['current_week' => $id]);
         if($average == 0){
             DB::table('chart_week')->where('Id', $id)->update(['Value' => null, 'Date' => $now]);
         }
@@ -174,6 +175,39 @@ Schedule::call(function () {
 
 })->everyMinute();
 
+Schedule::call(function () {
+    $average = DB::table('variables')->where('Name', 'average')->first()->ValuesEUR;
+    $id = DB::table('current_chart')->value('current_month');
+    if($id == 1488){
+        $id = 0;
+    }
+    $id++;
+    DB::table('current_chart')->update(['current_month' => $id]);
+    if($average == 0){
+        DB::table('chart_month')->where('Id', $id)->update(['Value' => null, 'Date' => Carbon::now()]);
+    }
+    else{
+        DB::table('chart_month')->where('Id', $id)->update(['Value' => $average, 'Date' => Carbon::now()]);
+    }
+    
+})->everyTwoHours($minutes = 0);
+
+Schedule::call(function () {
+    $average = DB::table('variables')->where('Name', 'average')->first()->ValuesEUR;
+    $id = DB::table('current_chart')->value('current_year');
+    if($id == 1460){
+        $id = 0;
+    }
+    $id++;
+    DB::table('current_chart')->update(['current_year' => $id]);
+    if($average == 0){
+        DB::table('chart_year')->where('Id', $id)->update(['Value' => null, 'Date' => Carbon::now()]);
+    }
+    else{
+        DB::table('chart_year')->where('Id', $id)->update(['Value' => $average, 'Date' => Carbon::now()]);
+    }
+    
+})->everyFourHours($minutes = 0);
 
 
 Schedule::call(function () {

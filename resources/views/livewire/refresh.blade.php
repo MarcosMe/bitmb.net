@@ -1,156 +1,46 @@
 <div wire:poll.60s>
-    <div class="relative isolate overflow-hidden bg-gray-900" x-data="{ 
-        chart: $wire.entangle('chart'),
-        chartDataValues: $wire.entangle('chartDataValues'),
-        chartDataTimes: $wire.entangle('chartDataTimes'),
-        eurValue: $wire.entangle('averageFromProviders'), 
-        usdValue: $wire.entangle('averageFromProvidersUSD'), 
-        isEUR: true,
-        
-        init() {
-            
-
-            const labels = this.chartDataTimes;
-            const data = {
-                labels: labels,
-                datasets: [{
-                    data: this.chartDataValues,
-                    borderWidth: 1,
-                    pointRadius: 0,
-                    lineTension: 0.4
-                }]
-            };
-             const config = {
-                 type: 'line',
-                 data: data,
-                 options: {
-                    showLines: true,
-                    spanGaps: true,
-                    animations: {
-                        tension: {
-                            duration: 1000,
-                            easing: 'linear',
-                            from: 1,
-                            to: 0,
-                            loop: true
-                        }
-                    },
-                    scales: {
-                        y: {
-                                ticks: {
-                                    beginAtZero:false,
-                                    callback: function(value, index, values) {
-                                        return value + ' €';
-                                    }
-                                }
-                            },
-                            x: {
-                                ticks: {
-                                // For a category axis, the val is the index so the lookup via getLabelForValue is needed
-                                    callback: function(val, index) {
-                                    // Hide every 2nd tick label
-                                        return index % 2 === 0 ? this.getLabelForValue(val).slice(5,16) : '';
-                                    },
-                                }
-                            }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false,
-                        }
-                    }    
-                 }
-             };
-             const myChart = new Chart(
-                 this.$refs.canvas,
-                 config
-             );
-
-
-            Livewire.on('updateTheChart', () => {
-                myChart.config.data.labels = this.chartDataTimes;
-                myChart.config.data.datasets[0].data = this.chartDataValues;
-
-                myChart.update();
-            })
-
-
-        }
-
-        
-    }">
-        
-        <div class="px-6 pt-24 sm:px-6 sm:pt-32 lg:px-8">
-            <div class="mx-auto max-w-3xl text-center">
-            <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl mb-2">
-                1 <i class="fa-solid fa-bitcoin-sign"></i> = <span @click="isEUR = !isEUR" class="cursor-pointer" wire:click="updateChart">
-                <span x-text="isEUR ? eurValue + '€' : '$' + usdValue"></span> 
-            </span>
-            </h2>
-            <h3 class="font-medium text-white">
-            {{$athPercentage}}% from all time high of 
-                <span x-text="isEUR ? {{$ath}} + '€' : '$' + {{round($ath * $exchangeRate, 2)}}"></span> 
-                <br>
-                Achieved on {{$athDate}} ({{$fromATHDate}})
-            </h3>
-            <p class="mx-auto mt-8 max-w-xl text-lg leading-8 text-gray-300">Value coming from {{$total_num}} providers:</p>
-                <ul role="list" class="mt-1 grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-6 lg:grid-cols-6">
-                    @foreach ($providers as $key => $provider)
-                    <li class="col-span-1 flex rounded-md shadow-sm">
-                        <div class="flex flex-1 items-center justify-between truncate">
-                            <div class="flex-1 items-center px-4 text-sm">
-                            <h3 class="font-medium text-white">{{$key}}</h3>
-                            @if ($provider != 0)
-                                <span class="inline-flex items-center gap-x-1.5 rounded-full bg-green-100 px-2 py-1 text-xs font-bold text-green-700">
-                                    <svg class="h-1.5 w-1.5 fill-green-500" viewBox="0 0 6 6" aria-hidden="true">
-                                        <circle cx="3" cy="3" r="3" />
-                                    </svg>
-                                    
-                                        <span x-text="isEUR ? {{$provider}} + '€' : '$' + {{round($provider * $exchangeRate, 2)}}"></span> 
-                                </span>
-                            @else
-                                <span class="inline-flex items-center gap-x-1.5 rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-800">
-                                    <svg class="h-1.5 w-1.5 fill-yellow-500" viewBox="0 0 6 6" aria-hidden="true">
-                                        <circle cx="3" cy="3" r="3" />
-                                    </svg>
-                                    No data
-                                </span>
-                            @endif
-                            
-                            </div>
-                        </div>
-                    </li>
-                    @endforeach
-                </ul>
-            </div>
-        </div>
-    
-        <div class="px-6 py-6 sm:px-6 sm:py-12 lg:px-8">
+    <div class="px-6 pt-24 sm:px-6 sm:pt-32 lg:px-8" x-data="{ eurValue: $wire.entangle('averageFromProviders'), usdValue: $wire.entangle('averageFromProvidersUSD'), isEUR: true }">
         <div class="mx-auto max-w-3xl text-center">
-        <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl my-4">
-            Charts  
-            
-            
-                
+        <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl mb-2">
+            1 <i class="fa-solid fa-bitcoin-sign"></i> = <span @click="isEUR = !isEUR" class="cursor-pointer">
+            <span x-text="isEUR ? eurValue + '€' : '$' + usdValue"></span> 
+        </span>
         </h2>
-            
-            <select name="chart" id="chart" class="border" wire:model="chart" wire:change="updateChart">
-                @foreach ($possibleCharts as $chart)
-                    <option value="{{ $chart }}">{{ $chart }}</option>
+        <h3 class="font-medium text-white">
+        {{$athPercentage}}% from all time high of 
+            <span x-text="isEUR ? {{$ath}} + '€' : '$' + {{round($ath * $exchangeRate, 2)}}"></span> 
+            <br>
+            Achieved on {{$athDate}} ({{$fromATHDate}})
+        </h3>
+        <p class="mx-auto mt-8 max-w-xl text-lg leading-8 text-gray-300">Value coming from {{$total_num}} providers:</p>
+            <ul role="list" class="mt-1 grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-6 lg:grid-cols-6">
+                @foreach ($providers as $key => $provider)
+                <li class="col-span-1 flex rounded-md shadow-sm">
+                    <div class="flex flex-1 items-center justify-between truncate">
+                        <div class="flex-1 items-center px-4 text-sm">
+                        <h3 class="font-medium text-white">{{$key}}</h3>
+                        @if ($provider != 0)
+                            <span class="inline-flex items-center gap-x-1.5 rounded-full bg-green-100 px-2 py-1 text-xs font-bold text-green-700">
+                                <svg class="h-1.5 w-1.5 fill-green-500" viewBox="0 0 6 6" aria-hidden="true">
+                                    <circle cx="3" cy="3" r="3" />
+                                </svg>
+                                
+                                    <span x-text="isEUR ? {{$provider}} + '€' : '$' + {{round($provider * $exchangeRate, 2)}}"></span> 
+                            </span>
+                        @else
+                            <span class="inline-flex items-center gap-x-1.5 rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-800">
+                                <svg class="h-1.5 w-1.5 fill-yellow-500" viewBox="0 0 6 6" aria-hidden="true">
+                                    <circle cx="3" cy="3" r="3" />
+                                </svg>
+                                No data
+                            </span>
+                        @endif
+                        
+                        </div>
+                    </div>
+                </li>
                 @endforeach
-            </select>
-            <div>
-        Selected: <span x-text="chart"></span>
-            </div>
-
-
-                <canvas id="myChart" x-ref="canvas"></canvas>
-            
-        </div>
+            </ul>
         </div>
     </div>
-
-    
-
-
 </div>

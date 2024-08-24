@@ -19,19 +19,7 @@ class Refresh extends Component
     public $averageFromProvidersUSD;
     public $athPercentage;
     public $exchangeRate;
-    public $chartDataTimes;
-    public $chartDataValues;
-    public $chart;
-
-    public function mount()
-    {
-        $this->chart = 'Day';
-    }
-
-    public function updateChart()
-    {
-        $this->dispatch('updateTheChart');
-    }
+    
 
     public function render()
     {
@@ -79,30 +67,9 @@ class Refresh extends Component
             }
             //dd($this->providers);
             //$coinmarketcap, $blockchain, $coindesk, $bitstamp,$peachbitcoin, $coinbase, $averageFromProviders, $this->ath, $this->athDate, $this->athPercentage, $fromATHDate, $averageFromProvidersUSD]);
-        switch($this->chart){
-            case 'Day':
-                $this->chartDataTimes =  DB::table('chart_day')->whereNotNull('Value')->orderBy('Date', 'asc')->pluck('Date');
-                $this->chartDataValues =  DB::table('chart_day')->whereNotNull('Value')->orderBy('Date', 'asc')->pluck('Value');
-                break;
-            case 'Week':
-                $this->chartDataTimes =  DB::table('chart_week')->whereNotNull('Value')->orderBy('Date', 'asc')->pluck('Date');
-                $this->chartDataValues =  DB::table('chart_week')->whereNotNull('Value')->orderBy('Date', 'asc')->pluck('Value');
-                break;
-            default:
-                $this->chartDataTimes =  DB::table('chart_day')->whereNotNull('Value')->orderBy('Date', 'asc')->pluck('Date');
-                $this->chartDataValues =  DB::table('chart_day')->whereNotNull('Value')->orderBy('Date', 'asc')->pluck('Value');
-        }
-            
-        
         }
 
-        $possibleCharts = [
-            'Day', 'Week', 'Month', 'Year'
-        ];
-
-        return view('livewire.refresh', [
-            'possibleCharts' => $possibleCharts,
-        ]);
+        return view('livewire.refresh');
     }
 
     

@@ -1,0 +1,58 @@
+{
+    "short_name": "BitMB",
+    "name": "BitMB",
+    "theme_color": "#209CEE",
+    "background_color": "#111827",
+    "display": "standalone",
+    "icons": [
+      {
+        "src": "icons/icon_48_48_dpi.png",
+        "type": "image/png",
+        "sizes": "48x48"
+      },
+      {
+        "src": "icons/icon_72_72_dpi.png",
+        "type": "image/png",
+        "sizes": "72x72"
+      },
+      {
+        "src": "icons/icon_96_96_dpi.png",
+        "type": "image/png",
+        "sizes": "96x96"
+      },
+      {
+        "src": "icons/icon_144_144_dpi.png",
+        "type": "image/png",
+        "sizes": "144x144"
+      },
+      {
+        "src": "icons/icon_192_192_dpi.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "icons/icon_512_512_dpi.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ],
+    "start_url": "/",
+    "scope": "/",
+    "orientation": "portrait",
+    "screenshots": [
+        {
+        "src": "icons/imageDesktop.png",
+          "sizes": "758x341",
+          "type": "image/png",
+          "form_factor": "wide",
+          "label": "BitMB"
+        },
+        {
+          "src": "icons/imageMobile.png",
+            "sizes": "341x379",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "BitMB"
+          }
+    ]
+  }
