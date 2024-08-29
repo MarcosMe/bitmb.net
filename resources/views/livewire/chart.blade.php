@@ -1,16 +1,14 @@
 <div class="relative isolate overflow-hidden bg-gray-900" x-data="{ 
-        chart: $wire.entangle('chart'),
-        chartDataValues: $wire.entangle('chartDataValues'),
-        chartDataTimes: $wire.entangle('chartDataTimes'),
         
         init() {
             
 
-            const labels = this.chartDataTimes;
+            const labels = $wire.chartDataTimes;
             const data = {
                 labels: labels,
                 datasets: [{
-                    data: this.chartDataValues,
+                    label: `${$wire.chart}`,
+                    data: $wire.chartDataValues,
                     borderWidth: 1,
                     pointRadius: 0,
                     lineTension: 0.4
@@ -50,23 +48,19 @@
                                 }
                             }
                     },
-                    plugins: {
-                        legend: {
-                            display: false,
-                        }
-                    }    
+                       
                  }
              };
-             const myChart = new Chart(
+              myChart = new Chart(
                  this.$refs.canvas,
                  config
              );
 
 
             Livewire.on('updateTheChart', () => {
-                myChart.config.data.labels = this.chartDataTimes;
-                myChart.config.data.datasets[0].data = this.chartDataValues;
-
+                myChart.data.labels = $wire.chartDataTimes;
+                myChart.data.datasets[0].data = $wire.chartDataValues;
+                myChart.data.datasets[0].label = `${$wire.chart}`;
                 myChart.update();
             })
 
@@ -77,7 +71,6 @@
     }">
     <div class="px-6 py-6 sm:px-6 sm:py-12 lg:px-8">
     <div class="mx-auto max-w-3xl text-center">
-    
         <div class="inline-block">
             <label for="chart" class="block text-sm font-medium leading-6 text-gray-900">Chart</label>
         
@@ -89,9 +82,8 @@
             </select>
         </div>    
         <div>
-        Selected: <span x-text="chart"></span>
+        Selected: <span x-text="$wire.chart"></span>
         </div>
-
         <canvas id="myChart" x-ref="canvas"></canvas>
         
     </div>

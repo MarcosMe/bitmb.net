@@ -15,13 +15,10 @@ class Chart extends Component
     public function mount()
     {
         $this->chart = 'Day';
+        $this->updateChart();
     }
 
     public function updateChart()
-    {
-        $this->dispatch('updateTheChart');
-    }
-    public function render()
     {
         switch($this->chart){
             case 'Day':
@@ -46,6 +43,13 @@ class Chart extends Component
                 $this->chartDataValues =  DB::table('chart_day')->whereNotNull('Value')->orderBy('Date', 'asc')->pluck('Value');
         }
 
+        $this->dispatch('updateTheChart');
+    }
+
+    public function render()
+    {
+        
+        //var_dump($this->chart);
         $possibleCharts = [
             'Day', 'Week', 'Month', 'Year'
         ];
