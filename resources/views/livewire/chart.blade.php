@@ -72,7 +72,7 @@
     <div class="px-6 py-6 sm:px-6 sm:py-12 lg:px-8">
     <div class="mx-auto max-w-3xl text-center">
         <div class="inline-block">
-            <label for="chart" class="block text-sm font-medium leading-6 text-gray-900">Chart</label>
+            <label for="chart" class="block text-sm font-medium leading-6 text-white">Charts</label>
         
             <select name="chart" id="chart" wire:model="chart" wire:change="updateChart"
             class="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">

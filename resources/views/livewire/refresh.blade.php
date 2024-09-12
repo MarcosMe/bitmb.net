@@ -7,8 +7,8 @@
                 No data, no provider available.
             </h2>
         @else
-            <h3 class="font-medium text-white mb-2">
-                Latest quote from {{ \Carbon\Carbon::Now()->format('d-m-Y H:i') }} GMT time
+            <h3 class="font-medium text-white mb-2 text-3xl sm:text-2xl">
+                Latest quote from {{ \Carbon\Carbon::Now()->format('d-m-Y H:i') }} GMT
             </h3>
             <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl mb-2">
                 1 <i class="fa-solid fa-bitcoin-sign"></i> = <span @click="isEUR = !isEUR" class="cursor-pointer">
