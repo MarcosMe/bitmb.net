@@ -178,7 +178,7 @@ Schedule::call(function () {
 Schedule::call(function () {
     $average = DB::table('variables')->where('Name', 'average')->first()->ValuesEUR;
     $id = DB::table('current_chart')->value('current_month');
-    if($id == 1488){
+    if($id == 1439){
         $id = 0;
     }
     $id++;
@@ -190,12 +190,12 @@ Schedule::call(function () {
         DB::table('chart_month')->where('Id', $id)->update(['Value' => $average, 'Date' => Carbon::now()]);
     }
     
-})->everyTwoHours($minutes = 0);
+})->everyThirtyMinutes();
 
 Schedule::call(function () {
     $average = DB::table('variables')->where('Name', 'average')->first()->ValuesEUR;
     $id = DB::table('current_chart')->value('current_year');
-    if($id == 1460){
+    if($id == 1459){
         $id = 0;
     }
     $id++;
@@ -207,7 +207,7 @@ Schedule::call(function () {
         DB::table('chart_year')->where('Id', $id)->update(['Value' => $average, 'Date' => Carbon::now()]);
     }
     
-})->everyFourHours($minutes = 0);
+})->everySixHours($minutes = 0);
 
 
 Schedule::call(function () {
