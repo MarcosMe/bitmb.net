@@ -10,17 +10,24 @@
             <h3 class="font-medium text-white mb-2 text-3xl sm:text-2xl">
                 Latest quote from {{ \Carbon\Carbon::Now()->format('d-m-Y H:i') }} GMT
             </h3>
+            
             <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl mb-2">
                 1 <i class="fa-solid fa-bitcoin-sign"></i> = <span @click="isEUR = !isEUR" class="cursor-pointer">
                 <span x-text="isEUR ? eurValue + '€' : '$' + usdValue"></span> 
             </span>
             </h2>
-            <h3 class="font-medium text-white">
-            {{$athPercentage}}% from all time high of 
-                <span x-text="isEUR ? {{$ath}} + '€' : '$' + {{round($ath * $exchangeRate, 2)}}"></span> 
-                <br>
-                Achieved on {{$athDate}} ({{$fromATHDate}})
-            </h3>
+            @if($athPercentage <= 0)
+                <h3 class="font-medium text-white">
+                    New all time high!!
+                </h3>
+            @else
+                <h3 class="font-medium text-white">
+                {{$athPercentage}}% from all time high of 
+                    <span x-text="isEUR ? {{$ath}} + '€' : '$' + {{round($ath * $exchangeRate, 2)}}"></span> 
+                    <br>
+                    Achieved on {{$athDate}} ({{$fromATHDate}})
+                </h3>
+            @endif
             <p class="mx-auto mt-8 max-w-xl text-lg leading-8 text-gray-300">Value coming from {{$total_num}} providers:</p>
                 <ul role="list" class="mt-1 grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-6 lg:grid-cols-6">
                     @foreach ($providers as $key => $provider)
