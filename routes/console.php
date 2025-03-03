@@ -166,10 +166,10 @@ Schedule::call(function () {
         $id++;
         DB::table('forge.current_chart')->update(['current_week' => $id]);
         if($average == 0){
-            DB::table('forge.chart_week')->where('Id', $id)->update(['Value' => null, 'Date' => $now]);
+            DB::table('forge.chart_week')->where('Id', $id)->update(['value' => null, 'date' => $now]);
         }
         else{
-            DB::table('forge.chart_week')->where('Id', $id)->update(['Value' => $average, 'Date' => $now]);
+            DB::table('forge.chart_week')->where('Id', $id)->update(['value' => $average, 'date' => $now]);
         }
     }
 
@@ -184,10 +184,10 @@ Schedule::call(function () {
     $id++;
     DB::table('forge.current_chart')->update(['current_month' => $id]);
     if($average == 0){
-        DB::table('forge.chart_month')->where('Id', $id)->update(['Value' => null, 'Date' => Carbon::now()]);
+        DB::table('forge.chart_month')->where('Id', $id)->update(['value' => null, 'date' => Carbon::now()]);
     }
     else{
-        DB::table('forge.chart_month')->where('Id', $id)->update(['Value' => $average, 'Date' => Carbon::now()]);
+        DB::table('forge.chart_month')->where('Id', $id)->update(['value' => $average, 'date' => Carbon::now()]);
     }
     
 })->everyThirtyMinutes();
@@ -201,10 +201,10 @@ Schedule::call(function () {
     $id++;
     DB::table('forge.current_chart')->update(['current_year' => $id]);
     if($average == 0){
-        DB::table('forge.chart_year')->where('Id', $id)->update(['Value' => null, 'Date' => Carbon::now()]);
+        DB::table('forge.chart_year')->where('Id', $id)->update(['value' => null, 'date' => Carbon::now()]);
     }
     else{
-        DB::table('forge.chart_year')->where('Id', $id)->update(['Value' => $average, 'Date' => Carbon::now()]);
+        DB::table('forge.chart_year')->where('Id', $id)->update(['value' => $average, 'date' => Carbon::now()]);
     }
     
 })->everySixHours($minutes = 0);
