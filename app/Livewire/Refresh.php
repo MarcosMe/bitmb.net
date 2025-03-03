@@ -42,7 +42,7 @@ class Refresh extends Component
     
             $this->averageFromProviders = DB::table('forge.variables')->where('Name', 'average')->first()->ValuesEUR;
             
-            $this->exchangeRate = DB::table('forge.variables')->where('Name', 'exchangeRate')->first()->valuesbtc;
+            $this->exchangeRate = DB::table('forge.variables')->where('Name', 'exchangeRate')->first()->ValuesBTC;
             $this->averageFromProvidersUSD = number_format($this->exchangeRate * $this->averageFromProviders, 2, '.', '');
     
             if($this->averageFromProviders != $this->ath){
