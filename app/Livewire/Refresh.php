@@ -37,7 +37,7 @@ class Refresh extends Component
             
     
             $this->ath = DB::table('forge.variables')->where('Name', 'ATH')->first()->ValuesEUR;
-            $this->athDate = DB::table('forge.variables')->where('Name', 'ATH')->first()->date;
+            $this->athDate = DB::table('forge.variables')->where('Name', 'ATH')->first()->Date;
             $this->fromATHDate = Carbon::create($this->athDate)->diffForHumans(['parts' => 3, 'join' => true,]);
     
             $this->averageFromProviders = DB::table('forge.variables')->where('Name', 'average')->first()->ValuesEUR;
