@@ -23,26 +23,26 @@ class Refresh extends Component
 
     public function render()
     {
-        $this->total_num = DB::table('forge.variables')->where('variables.name', 'total_num')->first()->valuesint;
+        $this->total_num = DB::table('forge.variables')->where('Name', 'total_num')->first()->ValuesINT;
         if($this->total_num == 0){
             $this->averageFromProviders = 0;
         }
         else{
-            $this->providers['coinmarketcap'] = DB::table('forge.variables')->where('variables.name', 'coinmarketcap')->first()->valueseur;
-            $this->providers['blockchain'] = DB::table('forge.variables')->where('variables.name', 'blockchain')->first()->valueseur;
-            $this->providers['coindesk'] = DB::table('forge.variables')->where('variables.name', 'coindesk')->first()->valueseur;
-            $this->providers['bitstamp'] = DB::table('forge.variables')->where('variables.name', 'bitstamp')->first()->valueseur;
-            $this->providers['peachbitcoin'] = DB::table('forge.variables')->where('variables.name', 'peachbitcoin')->first()->valueseur;
-            $this->providers['coinbase'] = DB::table('forge.variables')->where('variables.name', 'coinbase')->first()->valueseur;
+            $this->providers['coinmarketcap'] = DB::table('forge.variables')->where('Name', 'coinmarketcap')->first()->ValuesEUR;
+            $this->providers['blockchain'] = DB::table('forge.variables')->where('Name', 'blockchain')->first()->ValuesEUR;
+            $this->providers['coindesk'] = DB::table('forge.variables')->where('Name', 'coindesk')->first()->ValuesEUR;
+            $this->providers['bitstamp'] = DB::table('forge.variables')->where('Name', 'bitstamp')->first()->ValuesEUR;
+            $this->providers['peachbitcoin'] = DB::table('forge.variables')->where('Name', 'peachbitcoin')->first()->ValuesEUR;
+            $this->providers['coinbase'] = DB::table('forge.variables')->where('Name', 'coinbase')->first()->ValuesEUR;
             
     
-            $this->ath = DB::table('forge.variables')->where('variables.name', 'ATH')->first()->valueseur;
-            $this->athDate = DB::table('forge.variables')->where('variables.name', 'ATH')->first()->date;
+            $this->ath = DB::table('forge.variables')->where('Name', 'ATH')->first()->ValuesEUR;
+            $this->athDate = DB::table('forge.variables')->where('Name', 'ATH')->first()->date;
             $this->fromATHDate = Carbon::create($this->athDate)->diffForHumans(['parts' => 3, 'join' => true,]);
     
-            $this->averageFromProviders = DB::table('forge.variables')->where('variables.name', 'average')->first()->valueseur;
+            $this->averageFromProviders = DB::table('forge.variables')->where('Name', 'average')->first()->ValuesEUR;
             
-            $this->exchangeRate = DB::table('forge.variables')->where('variables.name', 'exchangeRate')->first()->valuesbtc;
+            $this->exchangeRate = DB::table('forge.variables')->where('Name', 'exchangeRate')->first()->valuesbtc;
             $this->averageFromProvidersUSD = number_format($this->exchangeRate * $this->averageFromProviders, 2, '.', '');
     
             if($this->averageFromProviders != $this->ath){

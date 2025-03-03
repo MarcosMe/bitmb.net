@@ -22,25 +22,25 @@ class Chart extends Component
     {
         switch($this->chart){
             case 'Day':
-                $this->chartDataTimes =  DB::table('forge.chart_day')->whereNotNull('value')->orderBy('date', 'asc')->pluck('date');
-                $this->chartDataValues =  DB::table('forge.chart_day')->whereNotNull('value')->orderBy('date', 'asc')->pluck('value');
+                $this->chartDataTimes =  DB::table('forge.chart_day')->whereNotNull('Value')->orderBy('Date', 'asc')->pluck('Date');
+                $this->chartDataValues =  DB::table('forge.chart_day')->whereNotNull('Value')->orderBy('Date', 'asc')->pluck('Value');
                 break;
             case 'Week':
-                $this->chartDataTimes =  DB::table('forge.chart_week')->whereNotNull('value')->orderBy('date', 'asc')->pluck('date');
-                $this->chartDataValues =  DB::table('forge.chart_week')->whereNotNull('value')->orderBy('date', 'asc')->pluck('value');
+                $this->chartDataTimes =  DB::table('forge.chart_week')->whereNotNull('Value')->orderBy('Date', 'asc')->pluck('Date');
+                $this->chartDataValues =  DB::table('forge.chart_week')->whereNotNull('Value')->orderBy('Date', 'asc')->pluck('Value');
                 break;
             case 'Month':
-                $this->chartDataTimes =  DB::table('forge.chart_month')->whereNotNull('value')->orderBy('date', 'asc')->pluck('date');
-                $this->chartDataValues =  DB::table('forge.chart_month')->whereNotNull('value')->orderBy('date', 'asc')->pluck('value');
+                $this->chartDataTimes =  DB::table('forge.chart_month')->whereNotNull('Value')->orderBy('Date', 'asc')->pluck('Date');
+                $this->chartDataValues =  DB::table('forge.chart_month')->whereNotNull('Value')->orderBy('Date', 'asc')->pluck('Value');
                 break;
             case 'Year':
-                $this->chartDataTimes =  DB::table('forge.chart_year')->whereNotNull('value')->orderBy('date', 'asc')->pluck('date');
-                $this->chartDataValues =  DB::table('forge.chart_year')->whereNotNull('value')->orderBy('date', 'asc')->pluck('value');
+                $this->chartDataTimes =  DB::table('forge.chart_year')->whereNotNull('Value')->orderBy('Date', 'asc')->pluck('Date');
+                $this->chartDataValues =  DB::table('forge.chart_year')->whereNotNull('Value')->orderBy('Date', 'asc')->pluck('Value');
                 break;
 
             default:
-                $this->chartDataTimes =  DB::table('forge.chart_day')->whereNotNull('value')->orderBy('date', 'asc')->pluck('date');
-                $this->chartDataValues =  DB::table('forge.chart_day')->whereNotNull('value')->orderBy('date', 'asc')->pluck('value');
+                $this->chartDataTimes =  DB::table('forge.chart_day')->whereNotNull('Value')->orderBy('Date', 'asc')->pluck('Date');
+                $this->chartDataValues =  DB::table('forge.chart_day')->whereNotNull('Value')->orderBy('Date', 'asc')->pluck('Value');
         }
 
         $this->dispatch('updateTheChart');
