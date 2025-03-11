@@ -4,7 +4,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/api', function (Request $request) {
+Route::get('/', function (Request $request) {
     //dd($request);
     
     if($request->string){
