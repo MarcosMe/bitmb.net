@@ -81,7 +81,7 @@ Schedule::call(function () {
             $total = $total + $providers[$key][4];
             //Log::info('Total: '.$total);
         } catch (\GuzzleHttp\Exception\ConnectException $e) {
-            Log::info('CAUGHT EXCEPTION on provider '.$provider[0]);
+            Log::info('CAUGHT EXCEPTION '. $e .' on provider '.$provider[0]);
             $provider[4] = 0;
             if($provider[0] == 0){
                 DB::table('forge.variables')->where('Name', 'coinmarketcap')->update(['ValuesEUR' => 0]);
@@ -106,7 +106,7 @@ Schedule::call(function () {
         }
 
         catch (\Exception $e) {
-            Log::info('CAUGHT EXCEPTION on provider '.$provider[0]);
+            Log::info('CAUGHT EXCEPTION '. $e .' on provider '.$provider[0]);
             $provider[4] = 0;
             if($provider[0] == 0){
                 DB::table('forge.variables')->where('Name', 'coinmarketcap')->update(['ValuesEUR' => 0]);
