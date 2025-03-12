@@ -56,7 +56,7 @@ Schedule::call(function () {
                 }
                 if($provider[0] == 2){
                     $getPath = $items[$provider[3][0]][$provider[3][1]][$provider[3][2]];
-                    $exchangeRate = DB::table('forge.variables')->where('Name', 'exchangeRate')->first()->valuesBTC;
+                    $exchangeRate = DB::table('forge.variables')->where('Name', 'exchangeRate')->first()->ValuesBTC;
                     $providers[2][4] = (float)number_format($getPath/$exchangeRate, 2, '.', '');
                     DB::table('forge.variables')->where('Name', 'coindesk')->update(['ValuesEUR' => $providers[2][4]]);
                 }
@@ -72,7 +72,7 @@ Schedule::call(function () {
                 }
                 if($provider[0] == 5){
                     $getPath = $items[$provider[3][0]][$provider[3][1]];
-                    $exchangeRate = DB::table('forge.variables')->where('Name', 'exchangeRate')->first()->valuesBTC;
+                    $exchangeRate = DB::table('forge.variables')->where('Name', 'exchangeRate')->first()->ValuesBTC;
                     $providers[5][4] = (float)number_format($getPath/$exchangeRate, 2, '.', '');
                     DB::table('forge.variables')->where('Name', 'coinbase')->update(['ValuesEUR' => $providers[5][4]]);
                 }
@@ -229,7 +229,7 @@ Schedule::call(function () {
     $exchange = json_decode(file_get_contents($url));
     //Log::info('New exchange rate: ' .$exchange->rates->USD);
     if($exchange->rates->USD){
-      DB::table('forge.variables')->where('Name', 'exchangeRate')->update(['valuesBTC' => $exchange->rates->USD]);
+      DB::table('forge.variables')->where('Name', 'exchangeRate')->update(['ValuesBTC' => $exchange->rates->USD]);
       Log::info('New exchange rate: ' .$exchange->rates->USD);
     }
 })->everyFourHours();
