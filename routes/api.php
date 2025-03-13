@@ -98,7 +98,7 @@ Route::get('/', function (Request $request) {
                                         'ath_date' => Carbon::parse($athDate[0]->Date)]);
         return Response::json($responseCollection);
     }
-})->middleware('throttle:10,1');
+});//->middleware('throttle:10,1');
 
 
 
