@@ -13,7 +13,7 @@ Schedule::call(function () {
     $providers = [ 
                 [0,'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/','latest?id=1&convert=EUR',['data','1','quote','EUR','price'],0], 
                 [1,'https://blockchain.info/','ticker',['EUR','last'],0],
-                [2,'https://api.coindesk.com/v1/bpi/currentprice/','USD',['bpi','USD','rate_float'],0], 
+                [2,'https://data-api.coindesk.com/spot/v1/latest/','tick?market=binance&instruments=BTC-EUR&apply_mapping=true',['Data','BTC-EUR','PRICE'],0], 
                 [3,'https://www.bitstamp.net/api/v2/ticker/','btceur',['last'],0], 
                 [4,'https://api.peachbitcoin.com/v1/market/price/','BTCEUR',['price'],0], 
                 [5,'https://api.coinbase.com/v2/','prices/spot?currency=EUR',['data','amount'],0]];
