@@ -56,8 +56,8 @@ Schedule::call(function () {
                 }
                 if($provider[0] == 2){
                     $getPath = $items[$provider[3][0]][$provider[3][1]][$provider[3][2]];
-                    $exchangeRate = DB::table('forge.variables')->where('Name', 'exchangeRate')->first()->ValuesBTC;
-                    $providers[2][4] = (float)number_format($getPath/$exchangeRate, 2, '.', '');
+                    //$exchangeRate = DB::table('forge.variables')->where('Name', 'exchangeRate')->first()->ValuesBTC;
+                    $providers[2][4] = (float)number_format($getPath, 2, '.', '');
                     DB::table('forge.variables')->where('Name', 'coindesk')->update(['ValuesEUR' => $providers[2][4]]);
                 }
                 if($provider[0] == 3){
