@@ -4,7 +4,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function (Request $request) {
+Route::get('/v1', function (Request $request) {
     //dd($request);
     
     if($request->string){
@@ -98,7 +98,7 @@ Route::get('/', function (Request $request) {
                                         'ath_date' => Carbon::parse($athDate[0]->Date)]);
         return Response::json($responseCollection);
     }
-});//->middleware('throttle:10,1');
+})->middleware('throttle:10,1');
 
 
 
