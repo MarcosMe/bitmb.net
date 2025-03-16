@@ -1,5 +1,5 @@
 <div wire:poll.60s>
-    <div class="px-6 pt-24 sm:px-6 sm:pt-32 lg:px-8" x-data="{ eurValue: '{{$averageFromProviders}}', usdValue: '{{$averageFromProvidersUSD}}', isEUR: true }">
+    <div class="px-6 pt-24 sm:px-6 sm:pt-32 lg:px-8" x-data="{ eurValue: $wire.entangle('averageFromProviders') , usdValue: $wire.entangle('averageFromProvidersUSD'), isEUR: true }">
         
         <div class="mx-auto max-w-3xl text-center">
         @if($total_num == 0)
