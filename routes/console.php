@@ -32,15 +32,15 @@ Schedule::call(function () {
                     $getPath = $items[$provider[3][0]][$provider[3][1]][$provider[3][2]][$provider[3][3]][$provider[3][4]];
                     
                     $providers[0][4] = (float)number_format($getPath, 2, '.', '');
-                    DB::table('forge.variables')->where('Name', 'coinmarketcap')->update(['ValuesEUR' => $providers[0][4]]);
+                    DB::table('variables')->where('Name', 'coinmarketcap')->update(['ValuesEUR' => $providers[0][4]]);
                 }
                 else{
-                    $providers[0][4] = DB::table('forge.variables')->where('Name', 'coinmarketcap')->first()->ValuesEUR;
+                    $providers[0][4] = DB::table('variables')->where('Name', 'coinmarketcap')->first()->ValuesEUR;
                     if($providers[0][4] == 0){
                         $total_num -= 1;
                     }
                     //$providers[0][4] = 0;
-                    //DB::table('forge.variables')->where('Name', 'coinmarketcap')->update(['ValuesEUR' => 0]);
+                    //DB::table('variables')->where('Name', 'coinmarketcap')->update(['ValuesEUR' => 0]);
                     //$total_num -= 1;
                     //Log::info('value for coinmarketcap: '.$providers[0][4]);
                 }
@@ -52,29 +52,29 @@ Schedule::call(function () {
                 if($provider[0] == 1){
                     $getPath = $items[$provider[3][0]][$provider[3][1]];
                     $providers[1][4] = (float)number_format($getPath, 2, '.', '');
-                    DB::table('forge.variables')->where('Name', 'blockchain')->update(['ValuesEUR' => $providers[1][4]]);
+                    DB::table('variables')->where('Name', 'blockchain')->update(['ValuesEUR' => $providers[1][4]]);
                 }
                 if($provider[0] == 2){
                     $getPath = $items[$provider[3][0]][$provider[3][1]][$provider[3][2]];
-                    //$exchangeRate = DB::table('forge.variables')->where('Name', 'exchangeRate')->first()->ValuesBTC;
+                    //$exchangeRate = DB::table('variables')->where('Name', 'exchangeRate')->first()->ValuesBTC;
                     $providers[2][4] = (float)number_format($getPath, 2, '.', '');
-                    DB::table('forge.variables')->where('Name', 'coindesk')->update(['ValuesEUR' => $providers[2][4]]);
+                    DB::table('variables')->where('Name', 'coindesk')->update(['ValuesEUR' => $providers[2][4]]);
                 }
                 if($provider[0] == 3){
                     $getPath = $items[$provider[3][0]];
                     $providers[3][4] = (float)number_format($getPath, 2, '.', '');
-                    DB::table('forge.variables')->where('Name', 'bitstamp')->update(['ValuesEUR' => $providers[3][4]]);
+                    DB::table('variables')->where('Name', 'bitstamp')->update(['ValuesEUR' => $providers[3][4]]);
                 }
                 if($provider[0] == 4){
                     $getPath = $items[$provider[3][0]];
                     $providers[4][4] = (float)number_format($getPath, 2, '.', '');
-                    DB::table('forge.variables')->where('Name', 'peachbitcoin')->update(['ValuesEUR' => $providers[4][4]]);
+                    DB::table('variables')->where('Name', 'peachbitcoin')->update(['ValuesEUR' => $providers[4][4]]);
                 }
                 if($provider[0] == 5){
                     $getPath = $items[$provider[3][0]][$provider[3][1]];
-                    $exchangeRate = DB::table('forge.variables')->where('Name', 'exchangeRate')->first()->ValuesBTC;
+                    $exchangeRate = DB::table('variables')->where('Name', 'exchangeRate')->first()->ValuesBTC;
                     $providers[5][4] = (float)number_format($getPath/$exchangeRate, 2, '.', '');
-                    DB::table('forge.variables')->where('Name', 'coinbase')->update(['ValuesEUR' => $providers[5][4]]);
+                    DB::table('variables')->where('Name', 'coinbase')->update(['ValuesEUR' => $providers[5][4]]);
                 }
             }
             
@@ -84,22 +84,22 @@ Schedule::call(function () {
             Log::info('CAUGHT EXCEPTION '. $e .' on provider '.$provider[0]);
             $provider[4] = 0;
             if($provider[0] == 0){
-                DB::table('forge.variables')->where('Name', 'coinmarketcap')->update(['ValuesEUR' => 0]);
+                DB::table('variables')->where('Name', 'coinmarketcap')->update(['ValuesEUR' => 0]);
             }
             if($provider[0] == 1){
-                DB::table('forge.variables')->where('Name', 'blockchain')->update(['ValuesEUR' => 0]);
+                DB::table('variables')->where('Name', 'blockchain')->update(['ValuesEUR' => 0]);
             }
             if($provider[0] == 2){
-                DB::table('forge.variables')->where('Name', 'coindesk')->update(['ValuesEUR' => 0]);
+                DB::table('variables')->where('Name', 'coindesk')->update(['ValuesEUR' => 0]);
             }
             if($provider[0] == 3){
-                DB::table('forge.variables')->where('Name', 'bitstamp')->update(['ValuesEUR' => 0]);
+                DB::table('variables')->where('Name', 'bitstamp')->update(['ValuesEUR' => 0]);
             }
             if($provider[0] == 4){
-                DB::table('forge.variables')->where('Name', 'peachbitcoin')->update(['ValuesEUR' => 0]);
+                DB::table('variables')->where('Name', 'peachbitcoin')->update(['ValuesEUR' => 0]);
             }
             if($provider[0] == 5){
-                DB::table('forge.variables')->where('Name', 'coinbase')->update(['ValuesEUR' => 0]);
+                DB::table('variables')->where('Name', 'coinbase')->update(['ValuesEUR' => 0]);
             }
             $total_num -= 1;
             //dd("entrou1");
@@ -109,102 +109,102 @@ Schedule::call(function () {
             Log::info('CAUGHT EXCEPTION '. $e .' on provider '.$provider[0]);
             $provider[4] = 0;
             if($provider[0] == 0){
-                DB::table('forge.variables')->where('Name', 'coinmarketcap')->update(['ValuesEUR' => 0]);
+                DB::table('variables')->where('Name', 'coinmarketcap')->update(['ValuesEUR' => 0]);
             }
             if($provider[0] == 1){
-                DB::table('forge.variables')->where('Name', 'blockchain')->update(['ValuesEUR' => 0]);
+                DB::table('variables')->where('Name', 'blockchain')->update(['ValuesEUR' => 0]);
             }
             if($provider[0] == 2){
-                DB::table('forge.variables')->where('Name', 'coindesk')->update(['ValuesEUR' => 0]);
+                DB::table('variables')->where('Name', 'coindesk')->update(['ValuesEUR' => 0]);
             }
             if($provider[0] == 3){
-                DB::table('forge.variables')->where('Name', 'bitstamp')->update(['ValuesEUR' => 0]);
+                DB::table('variables')->where('Name', 'bitstamp')->update(['ValuesEUR' => 0]);
             }
             if($provider[0] == 4){
-                DB::table('forge.variables')->where('Name', 'peachbitcoin')->update(['ValuesEUR' => 0]);
+                DB::table('variables')->where('Name', 'peachbitcoin')->update(['ValuesEUR' => 0]);
             }
             if($provider[0] == 5){
-                DB::table('forge.variables')->where('Name', 'coinbase')->update(['ValuesEUR' => 0]);
+                DB::table('variables')->where('Name', 'coinbase')->update(['ValuesEUR' => 0]);
             }
             $total_num -= 1;
             //dd("entrou1");
         }
     }        
-    DB::table('forge.variables')->where('Name', 'total_num')->update(['ValuesINT' => $total_num]);
+    DB::table('variables')->where('Name', 'total_num')->update(['ValuesINT' => $total_num]);
     if($total_num == 0){
         $average = 0;
         Log::info('Average value is 0! using previous average');
     }
     else{
         $average = number_format($total / $total_num , 2, '.', '');
-        DB::table('forge.variables')->where('Name', 'average')->update(['ValuesEUR' => $average]);
+        DB::table('variables')->where('Name', 'average')->update(['ValuesEUR' => $average]);
     }
     Log::info($average. ' average value from ' .$total_num. ' providers -> 0-' 
     .$providers[0][4].' 1-'. $providers[1][4].' 2-'. $providers[2][4].' 3-'. $providers[3][4].' 4-'. $providers[4][4].' 5-'.$providers[5][4]);
 
     if($average == 0){
-        DB::table('forge.chart_day')->where('Minute', $minute)->update(['Value' => null, 'Date' => $now]);
-        DB::table('forge.variables')->where('Name', 'average')->update(['ValuesEUR' => $average]);
+        DB::table('chart_day')->where('Minute', $minute)->update(['Value' => null, 'Date' => $now]);
+        DB::table('variables')->where('Name', 'average')->update(['ValuesEUR' => $average]);
     }
     else{
-        DB::table('forge.chart_day')->where('Minute', $minute)->update(['Value' => $average, 'Date' => $now]);
-        DB::table('forge.variables')->where('Name', 'average')->update(['ValuesEUR' => $average]);
+        DB::table('chart_day')->where('Minute', $minute)->update(['Value' => $average, 'Date' => $now]);
+        DB::table('variables')->where('Name', 'average')->update(['ValuesEUR' => $average]);
         //check if new ATH, if so, update db
-        $ath = DB::table('forge.variables')->where('Name', 'ATH')->get('ValuesEUR');
+        $ath = DB::table('variables')->where('Name', 'ATH')->get('ValuesEUR');
         //Log::info($average. ' value @ '. $now . ' and ATH is ' .$ath[0]->ValuesEUR);
         if($average > $ath[0]->ValuesEUR){
-            DB::table('forge.variables')->where('Name', 'ATH')->update(['ValuesEUR' => $average, 'Date' => $now]);
+            DB::table('variables')->where('Name', 'ATH')->update(['ValuesEUR' => $average, 'Date' => $now]);
             Log::info('New ATH: ' .$ath[0]->ValuesEUR);
         }
     }
 
     if($minute % 10 == 0){
-        $id = DB::table('forge.current_chart')->value('current_week');
+        $id = DB::table('current_chart')->value('current_week');
         if($id == 1007){
             $id = 0;
         }
         $id++;
-        DB::table('forge.current_chart')->update(['current_week' => $id]);
+        DB::table('current_chart')->update(['current_week' => $id]);
         if($average == 0){
-            DB::table('forge.chart_week')->where('Id', $id)->update(['value' => null, 'date' => $now]);
+            DB::table('chart_week')->where('Id', $id)->update(['value' => null, 'date' => $now]);
         }
         else{
-            DB::table('forge.chart_week')->where('Id', $id)->update(['value' => $average, 'date' => $now]);
+            DB::table('chart_week')->where('Id', $id)->update(['value' => $average, 'date' => $now]);
         }
     }
 
 })->everyMinute();
 
 Schedule::call(function () {
-    $average = DB::table('forge.variables')->where('Name', 'average')->first()->ValuesEUR;
-    $id = DB::table('forge.current_chart')->value('current_month');
+    $average = DB::table('variables')->where('Name', 'average')->first()->ValuesEUR;
+    $id = DB::table('current_chart')->value('current_month');
     if($id == 1439){
         $id = 0;
     }
     $id++;
-    DB::table('forge.current_chart')->update(['current_month' => $id]);
+    DB::table('current_chart')->update(['current_month' => $id]);
     if($average == 0){
-        DB::table('forge.chart_month')->where('Id', $id)->update(['value' => null, 'date' => Carbon::now()]);
+        DB::table('chart_month')->where('Id', $id)->update(['value' => null, 'date' => Carbon::now()]);
     }
     else{
-        DB::table('forge.chart_month')->where('Id', $id)->update(['value' => $average, 'date' => Carbon::now()]);
+        DB::table('chart_month')->where('Id', $id)->update(['value' => $average, 'date' => Carbon::now()]);
     }
     
 })->everyThirtyMinutes();
 
 Schedule::call(function () {
-    $average = DB::table('forge.variables')->where('Name', 'average')->first()->ValuesEUR;
-    $id = DB::table('forge.current_chart')->value('current_year');
+    $average = DB::table('variables')->where('Name', 'average')->first()->ValuesEUR;
+    $id = DB::table('current_chart')->value('current_year');
     if($id == 1459){
         $id = 0;
     }
     $id++;
-    DB::table('forge.current_chart')->update(['current_year' => $id]);
+    DB::table('current_chart')->update(['current_year' => $id]);
     if($average == 0){
-        DB::table('forge.chart_year')->where('Id', $id)->update(['value' => null, 'date' => Carbon::now()]);
+        DB::table('chart_year')->where('Id', $id)->update(['value' => null, 'date' => Carbon::now()]);
     }
     else{
-        DB::table('forge.chart_year')->where('Id', $id)->update(['value' => $average, 'date' => Carbon::now()]);
+        DB::table('chart_year')->where('Id', $id)->update(['value' => $average, 'date' => Carbon::now()]);
     }
     
 })->everySixHours($minutes = 0);
@@ -212,13 +212,13 @@ Schedule::call(function () {
 
 Schedule::call(function () {
     //make stats for the day and save to log
-    $value = DB::table('forge.variables')->where('Name', 'average')->first()->ValuesEUR;
-    $dailyAverage = number_format(DB::table('forge.chart_day')->avg('Value'), 2, '.', '');
-    $dailyAverageYesterday = DB::table('forge.variables')->where('Name', 'dailyAverage')->first()->ValuesEUR;
+    $value = DB::table('variables')->where('Name', 'average')->first()->ValuesEUR;
+    $dailyAverage = number_format(DB::table('chart_day')->avg('Value'), 2, '.', '');
+    $dailyAverageYesterday = DB::table('variables')->where('Name', 'dailyAverage')->first()->ValuesEUR;
     $diffPercent = number_format((($dailyAverage-$dailyAverageYesterday)/$dailyAverageYesterday)*100, 2, '.', '');
     $arrow = $diffPercent >= 0 ? "⬆️" : "⬇️";
     
-    DB::table('forge.variables')->where('Name', 'dailyAverage')->update(['ValuesEUR' => $dailyAverage]);
+    DB::table('variables')->where('Name', 'dailyAverage')->update(['ValuesEUR' => $dailyAverage]);
     Log::info('1 bitcoin ending the day at '.$value.'€! Daily average of '.$dailyAverage.'€ ('.$arrow.' '.$diffPercent.'% compared with previous day)');
     
 })->dailyAt('23:59');
@@ -229,7 +229,7 @@ Schedule::call(function () {
     $exchange = json_decode(file_get_contents($url));
     //Log::info('New exchange rate: ' .$exchange->rates->USD);
     if($exchange->rates->USD){
-      DB::table('forge.variables')->where('Name', 'exchangeRate')->update(['ValuesBTC' => $exchange->rates->USD]);
+      DB::table('variables')->where('Name', 'exchangeRate')->update(['ValuesBTC' => $exchange->rates->USD]);
       Log::info('New exchange rate: ' .$exchange->rates->USD);
     }
 })->everyFourHours();
